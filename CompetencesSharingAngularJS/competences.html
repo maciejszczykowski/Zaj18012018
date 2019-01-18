@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link href="bower_components/angular/angular-csp.css" rel="stylesheet" />
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
+    <style>
+        h4.card-title {
+            text-align: center;
+            margin-bottom: 0px;
+        }
+        div.card-body img {
+            margin: auto;
+        }
+
+        img.card-img-top {
+            width: 10rem;
+            height: 8rem;
+        }
+
+        div.card {
+            width: 12rem;
+        }
+        #app {
+            display:flex;
+            flex-flow: row;
+            flex-wrap:wrap;
+        }
+
+        .competence_low {
+            color:red;
+        }
+
+        .competence_high {
+            color: green;
+        }
+
+
+        div.competence-search {
+            margin-bottom: 2%;
+        } 
+        
+        .competence-search span.input-group-text {
+            background-color: green;
+            color: white;
+        }
+    </style>
+
+</head>
+<body>
+    <div id="app" ng-app="app" ng-controller="contr">
+
+        <div class="input-group input-group-lg competence-search">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Podaj nazwę kompetencji</span>
+            </div>
+            <input type="text" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" placeholder="" ng-model="searchText">
+            <div class="input-group-prepend">
+                <span class="input-group-text">{{searchText}}</span>
+            </div>
+        </div>
+
+        <div class="card" ng-repeat="competence in competencies | filter: {Name: searchText}" ng-if="competence.Level > 0">
+            <h4 class="card-title">{{competence.Name | uppercase}}</h4>
+            <div class="card-body">
+                <img class="card-img-top" ng-src="{{'assets/' +  competence.Picture}}"/>
+                <h6 class="card-title" ng-class="{'competence_low': competence.Level < 3, 'competence_high': competence.Level > 3}">Poziom: {{competence.Level}}</h6>
+                <p class="card-text" ng-if="competence.Description.trim().length > 0">Opis: {{competence.Description}}</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var app = angular.module('app', ["ngRoute"]);
+        app.config(['$routeProvider', function ($routeProvider) {
+            $routeProvider.
+                when("/competences", { templateUrl: "competences.html", controller: "contr" }).
+                otherwise({ redirectTo: '/contr' });
+        }]);
+
+        app.controller('contr', function ($scope) {
+            var competencies = [
+                { Id: 1, Name: "Bootstrap", Level: 4, Picture: "bootstrap.svg", Description: "Wersja 3" },
+                { Id: 2, Name: "AngularJS", Level: 3, Picture: "angularjs.png", Description: "" },
+                { Id: 3, Name: "Angular", Level: 4, Picture: "angular.png", Description: "" },
+                { Id: 4, Name: "Ionic", Level: 4, Picture: "ionic.png", Description: "Wersja 2" },
+                { Id: 5, Name: "PhoneGap", Level: 1, Picture: "phonegap.png", Description: "Tylko absolutne podstawy" },
+                { Id: 6, Name: "ReactJS", Level: 0, Picture: "react.png", Description: "Tylko absolutne podstawy" },
+                { Id: 7, Name: "Xamarin", Level: 2, Picture: "xamarin.png", Description: "Bez API dla IOS" },
+                { Id: 8, Name: "HTML5", Level: 5, Picture: "html5.png", Description: "Bez WebSockets i Database API" },
+                { Id: 9, Name: "CSS3", Level: 4, Picture: "css3.png", Description: "" },
+                { Id: 10, Name: "WebAPI", Level: 5, Picture: "webapi.png", Description: "" }
+            ];
+
+            $scope.competencies =  competencies.sort(function (a, b) {
+                return a.Name > b.Name;
+            });
+
+            $scope.searchCompetence = function (searchText) {
+                alert(searchText);
+            }
+        });
+    </script>
+
+
+
+    <!--<div class="input-group input-group-lg competence-search">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Podaj nazwę kompetencji</span>
+        </div>
+        <input type="text" v-model="searchCompetenceText" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" placeholder="">
+    </div>
+
+    <div class="card" v-for="competence in competenciesFiltered" v-if="competence.Level > 0">
+        <h4 class="card-title">{{competence.Name.toUpperCase()}}</h4>
+        <div class="card-body">
+            <img class="card-img-top" v-bind:src="'assets/' +  competence.Picture">
+            <h6 class="card-title" v-bind:class="{competence_low: competence.Level < 3, competence_high: competence.Level > 3}">Poziom: {{competence.Level}}</h6>
+            <p class="card-text" v-if="competence.Description.trim().length > 0">Opis: {{competence.Description}}</p>
+        </div>
+    </div>-->
+    
+
+    <!--<script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                searchCompetenceText: '',
+                competencies: [
+                    { Id: 1, Name: "Bootstrap", Level: 4, Picture: "bootstrap.svg", Description: "Wersja 3" },
+                    { Id: 2, Name: "AngularJS", Level: 3, Picture: "angularjs.png", Description: "" },
+                    { Id: 3, Name: "Angular", Level: 4, Picture: "angular.png", Description: "" },
+                    { Id: 4, Name: "Ionic", Level: 4, Picture: "ionic.png", Description: "Wersja 2" },
+                    { Id: 5, Name: "PhoneGap", Level: 1, Picture: "phonegap.png", Description: "Tylko absolutne podstawy" },
+                    { Id: 6, Name: "ReactJS", Level: 0, Picture: "react.png", Description: "Tylko absolutne podstawy" },
+                    { Id: 7, Name: "Xamarin", Level: 2, Picture: "xamarin.png", Description: "Bez API dla IOS" },
+                    { Id: 8, Name: "HTML5", Level: 5, Picture: "html5.png", Description: "Bez WebSockets i Database API" },
+                    { Id: 9, Name: "CSS3", Level: 4, Picture: "css3.png", Description: "" },
+                    { Id: 10, Name: "WebAPI", Level: 5, Picture: "webapi.png", Description: "" }
+                ]
+            },
+            computed: {
+                competenciesFiltered: function () {
+                    var searchText = this.searchCompetenceText;
+                    return this.competencies.filter(function (item) {
+                        if (item.Name.toLowerCase().indexOf(searchText) >= 0) {
+                            return item;
+                        }
+                    });
+                }
+            }
+        });
+    </script>-->
+</body>
+</html>

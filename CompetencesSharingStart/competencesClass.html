@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="js/angular.js"></script>
+    <script src="js/competences.js"></script>
+
+    <style>
+    .competence-level-low {
+        color: red;
+    }
+    .competence-level-high {
+        color: green;
+    }
+
+    </style>
+
+</head>
+<body ng-app="appCompetencies" ng-controller="listController">
+    <div class="card" style="width: 12rem;">
+        <h5 class="card-title text-center">{{competencies[1].Name}}</h5>
+        <div class="card-body">
+        <img ng-src="{{'assets/'+ competencies[1].Picture}}" />
+        <h6 class="card-text font-weight-bold"
+        ng-class="{'competence-level-low': competencies[1].Level < 3, 'competence-level-high': competencies[1].Level > 3}">
+        
+        Poziom: {{competencies[1].Level}} 
+        </h6>
+         <p class="card-text">Opis:{{competencies[1].Description}}</p>
+          
+        </div>
+      </div>
+<br/>
+
+   
+</select>
+
+
+<script>
+var app = angular.module("appCompetencies", []);
+app.controller("listController", function($scope){
+$scope.competencies = competenciesList;
+$scope.competenciesLevels = [1,2,3,4,5,6,7];
+});
+
+</script>
+</html>

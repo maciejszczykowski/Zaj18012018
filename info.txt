@@ -1,0 +1,20 @@
+AngularJS
+
+Tylko competencesAngularJS narazie robimy
+AngularJS tylko robimy. Na 1 stronie wszystko
+Angulara 2... nie bedziemy tutaj raczej robic. To jest wersja Typescriptowa a nie JS. Wielostronicowa
+albo na odwrot :P
+Data binding: zmienimy gdzies to sie aktualizuje w innych miescach, powiela
+MVC - controler->model->view->controler. zmiana na stronie to kontroler zmieni w database i na odwrot
+Template: Szablon, moze byc powielany
+
+sciagamy angularjs
+odpalamy competencessharingstart
+
+cards robimy, jest link w pdf do bootstrap do components cards 
+https://getbootstrap.com/docs/4.0/components/card/
+
+tam kopiujemy sobie gotowa karte do body
+
+w pliku competencesClass uzywamy ng-class (klasy zrobilismy) a w  competencesStyle uzylismy styli czyli pisane w lini style (slabsze niz klasy)
+
